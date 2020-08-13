@@ -47,7 +47,16 @@ namespace BinarySearchTree
 
         public bool AddItem(int value)
         {
-            throw new System.NotImplementedException();
+            if(value > Value)
+            {
+                Right = new BSTNode(value);
+                return true;
+            }
+            else
+            {
+                Left = new BSTNode(value);
+                return true;
+            }
         }
 
         public bool Contains(int value)
@@ -57,29 +66,49 @@ namespace BinarySearchTree
 
         public BSTNode FindItem(int value)
         {
-            if(Value == value)
+            if(Left != null && Right != null)
             {
-                return this;
+                if (Left.Value == value)
+                {
+                    return Left;
+                }
+                else if (Right.Value == value)
+                {
+                    return Right;
+                }
+                else
+                {
+                    return null;
+                }
             }
-            if(Left == null && Right == null)
+            else if(Right != null && Right.Value == value)
             {
-                return null;
+                return Right;
             }
-            var lRes = FindItem(Left.Value);
-            var rRes = FindItem(Right.Value);
-            if(lRes != null)
+            else if (Left != null && Left.Value == value)
             {
-                return lRes;
+                return Left;
             }
             else
             {
-                return rRes;
+                return null;
             }
         }
 
         public bool DeleteItem(int value, BSTNode parent)
         {
-            throw new System.NotImplementedException();
+            BSTNode nodeToDelete = parent.FindItem(value);
+            if(nodeToDelete == null)
+            {
+                return false;
+            }
+            var left = nodeToDelete.Left;
+            var right = nodeToDelete.Right;
+            nodeToDelete.Left = null;
+            nodeToDelete.Right = null;
+            parent.Left = left;
+            parent.Right = right;
+            return true;
         }
     }
 }
